@@ -6,20 +6,25 @@ import PackageDescription
 let package = Package(
   name: "lox",
   products: [
-    .executable(name: "treeloxc", targets: ["TreeLox"]),
-    .executable(name: "vmloxc", targets: ["VMLox"]),
+    .library(name: "FrontEnd", targets: ["FrontEnd"]),
+    .executable(name: "treeloxc", targets: ["treeloxc"]),
+    .executable(name: "loxc", targets: ["loxc"]),
   ],
   targets: [
     .target(
-      name: "Core"
+      name: "Utils",
+    ),
+    .target(
+      name: "FrontEnd",
+      dependencies: ["Utils"]
     ),
     .executableTarget(
-      name: "TreeLox",
-      dependencies: ["Core"]
+      name: "treeloxc",
+      dependencies: ["FrontEnd"]
     ),
     .executableTarget(
-      name: "VMLox",
-      dependencies: ["Core"]
+      name: "loxc",
+      dependencies: ["FrontEnd"]
     ),
   ]
 )
