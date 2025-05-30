@@ -1,3 +1,4 @@
+import Algorithms
 import Foundation
 import Utils
 
@@ -71,4 +72,52 @@ public struct SourceFile {
 
   /// The number of lines in the file.
   public var linesCount: Int { storage.lineStarts.count }
+
+  /// Returns 1-based line which contains given `index`.
+  public func line(containing index: Index) -> Int {
+    storage.lineStarts.partitioningIndex { $0 >= index } + 1
+  }
+
+  /// Returns 1-based line and column position of given `index`.
+  public func lineAndCol(of index: Index) -> (Int, Int) {
+    let lineNum = line(containing: index)
+    let colNum = text.distance(from: storage.lineStarts[lineNum - 1], to: index) + 1
+    return (lineNum, colNum)
+  }
+}
+
+/// For `SourcePosition`.
+extension SourceFile {
+  public func position(of index: Index) -> SourcePosition {
+    SourcePosition.init(index, in: self)
+  }
+}
+
+/// For `SourceRange`.
+extension SourceFile {
+  /// Returns the region of `self` corresponding to `r`.
+  ///
+  /// - Requires: `r` is a valid range in `self`.
+  public func range(_ r: Range<Index>) -> SourceRange {
+    SourceRange(r, in: self)
+  }
+
+  /// A range covering the whole contents of this instance.
+  public var wholeRange: SourceRange {
+    range(text.startIndex..<text.endIndex)
+  }
+
+  /// Returns a range starting and ending at `index`.
+  public func emptyRange(at index: String.Index) -> SourceRange {
+    range(index..<index)
+  }
+
+  /// Returns the contents of the file in the specified range.
+  ///
+  /// - Requires: The bounds of `range` are valid positions in `self`.
+  public subscript(_ range: SourceRange) -> Substring {
+    precondition(range.file.url == url, "invalid range")
+    return text[range.startIndex..<range.endIndex]
+  }
+
 }
