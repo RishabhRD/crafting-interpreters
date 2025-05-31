@@ -35,3 +35,29 @@ public struct SourceRange {
     file.text[regionOfFile]
   }
 }
+
+/// Extending SourceRange.
+extension SourceRange {
+  /// Returns a copy of `self` with the end increased (if necessary) to `newEnd`.
+  public func extended(upTo newEnd: SourceFile.Index) -> SourceRange {
+    precondition(newEnd >= endIndex)
+    return file.range(startIndex..<newEnd)
+  }
+
+  /// Returns a copy of `self` extended to cover `other`.
+  public func extended(toCover other: SourceRange) -> SourceRange {
+    precondition(file.url == other.file.url, "incompatible ranges")
+    return file.range(
+      Swift.min(startIndex, other.startIndex)..<Swift.max(endIndex, other.endIndex))
+  }
+
+  /// Increases (if necessary) the end of `self` so that it equals `newEnd`.
+  public mutating func extend(upTo newEnd: SourceFile.Index) {
+    self = self.extended(upTo: newEnd)
+  }
+
+  /// Returns a copy of `self` extended to cover `other`.
+  public mutating func extend(toCover other: SourceRange) {
+    self = self.extended(toCover: other)
+  }
+}
