@@ -60,12 +60,12 @@ public struct Token {
   /// The kind of token.
   public let kind: Kind
 
-  /// The location from which token was extracted.
-  public let location: SourceRange
+  /// The site from which token was extracted.
+  public let site: SourceRange
 
-  /// Creates an instance of token with given `kind` and `location`.
-  public init(_ kind: Kind, at location: SourceRange) {
+  /// Creates an instance of token with given `kind` and `site`.
+  public init(kind: Kind, site: SourceRange) {
     self.kind = kind
-    self.location = location
+    self.site = site
   }
 }
