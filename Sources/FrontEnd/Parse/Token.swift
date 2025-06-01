@@ -1,7 +1,7 @@
 public struct Token {
   public enum Kind: Int {
     // Errors
-    case Invalid = 0
+    case invalid = 0
     case unterminatedString
     case unterminatedBlockComment
 
@@ -25,7 +25,7 @@ public struct Token {
     case `while`
 
     // Literals
-    case identifier = 2000
+    case name = 2000
     case string
     case number
 
@@ -58,14 +58,27 @@ public struct Token {
   }
 
   /// The kind of token.
-  public let kind: Kind
+  public var kind: Kind
 
   /// The site from which token was extracted.
-  public let site: SourceRange
+  public var site: SourceRange
 
   /// Creates an instance of token with given `kind` and `site`.
   public init(kind: Kind, site: SourceRange) {
     self.kind = kind
     self.site = site
+  }
+}
+
+extension Token {
+  public func isOf<T: Collection>(kind kinds: T) -> Bool where T.Element == Kind {
+    kinds.contains(kind)
+  }
+
+  var isOperator: Bool {
+    isOf(kind: [
+      .not_equals, .equals, .greater_equals, .less_equals, .greater, .less, .assign, .plus, .minus,
+      .multiply, .divide, .modulo,
+    ])
   }
 }
