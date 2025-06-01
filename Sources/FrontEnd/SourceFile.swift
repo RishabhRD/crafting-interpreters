@@ -121,3 +121,10 @@ extension SourceFile {
   }
 
 }
+
+/// For assigning to string literal.
+extension SourceFile: ExpressibleByStringLiteral {
+  public init(stringLiteral text: String) {
+    self.init(synthesizedText: text)
+  }
+}
