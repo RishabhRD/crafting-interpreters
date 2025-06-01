@@ -10,8 +10,7 @@ import Testing
       matching: [
         TokenSpecification(.var, "var"),
         TokenSpecification(.name, "text"),
-      ],
-      in: source
+      ]
     )
   }
 
@@ -34,7 +33,6 @@ import Testing
   private func assert(
     _ tokens: [Token],
     matching specs: [TokenSpecification],
-    in sourceCode: SourceFile,
     sourceLocation: SourceLocation = #_sourceLocation
   ) {
     // Should have number of tokens.
