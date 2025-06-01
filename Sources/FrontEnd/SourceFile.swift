@@ -75,7 +75,7 @@ public struct SourceFile {
 
   /// Returns 1-based line which contains given `index`.
   public func line(containing index: Index) -> Int {
-    storage.lineStarts.partitioningIndex { $0 >= index } + 1
+    storage.lineStarts.partitioningIndex { $0 > index }
   }
 
   /// Returns 1-based line and column position of given `index`.

@@ -33,6 +33,10 @@ let package = Package(
       name: "FrontEnd",
       dependencies: ["Utils"]
     ),
+    .testTarget(
+      name: "FrontEndTests",
+      dependencies: ["FrontEnd"]
+    ),
     .executableTarget(
       name: "treeloxc",
       dependencies: ["FrontEnd"]
