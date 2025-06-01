@@ -30,6 +30,7 @@ public struct Lexer: IteratorProtocol, Sequence {
       // Skip whitespace
       if text[index].isWhitespace {
         discard()
+        continue
       }
 
       // Skip line comments
