@@ -48,7 +48,7 @@ import Testing
       #expect(
         token.kind == spec.kind,
         "token has kind '\(token.kind)' not '\(spec.kind)'",
-        sourceLocation: sourceLocation
+        sourceLocation: spec.sourceLocation
       )
 
       // Should have same token text. As text is derived from range and source
@@ -57,7 +57,7 @@ import Testing
       #expect(
         tokenText == spec.value,
         "token has value '\(tokenText)' not '\(spec.value)'",
-        sourceLocation: sourceLocation
+        sourceLocation: spec.sourceLocation
       )
     }
   }
