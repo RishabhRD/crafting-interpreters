@@ -22,6 +22,16 @@ public struct Lexer: IteratorProtocol, Sequence {
 
   /// Advances state to the next token and returns it,
   /// or returns `nil` if no next token exists.
+  ///
+  /// Postcondition:
+  /// - If there is valid token remaining in stream,
+  ///   produce it as per language specification.
+  /// - For invalid token:
+  ///     - any unknown character that is not inside a string or comment.
+  ///     - a consecutive group of operator characters that is not an operator.
+  ///     - an invalid number representation.
+  /// - If there is unclosed string or block comment, produce unterminatedString
+  ///   and unterminatedBlockComment respectively.
   public mutating func next() -> Token? {
     while true {
       // If no next token, returns nil.
@@ -98,7 +108,7 @@ public struct Lexer: IteratorProtocol, Sequence {
     if head.isDecDigit {
       let number = take(where: { $0.isDecDigit || $0 == "." })
       // Valid number
-      if number.filter({ $0 == "." }).count <= 1 {
+      if number.lazy.filter({ $0 == "." }).count <= 1 {
         token.kind = .number
       }
 
