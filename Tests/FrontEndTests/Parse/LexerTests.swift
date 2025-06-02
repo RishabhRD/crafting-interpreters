@@ -3,13 +3,49 @@ import Testing
 
 @Suite struct LexerTests {
   @Test func consumesWhitespace() {
-    let source: SourceFile = "  \n \r \rvar text"
+    let source = "  \n \r \rvar text"
 
     assert(
-      tokenize(source.text),
+      tokenize(source),
       matching: [
         TokenSpecification(.var, "var"),
         TokenSpecification(.name, "text"),
+      ]
+    )
+  }
+
+  @Test func consumesComments() {
+    let source =
+      """
+      var
+      // somthing that is //
+      //    
+
+         
+      /* something
+       *   /*
+       *
+       *   */
+      */
+
+      // somthing that is //
+      //    
+
+         
+      /* something
+       *   /*
+       *
+       *   */
+      */
+
+      x
+      """
+
+    assert(
+      tokenize(source),
+      matching: [
+        TokenSpecification(.var, "var"),
+        TokenSpecification(.name, "x"),
       ]
     )
   }

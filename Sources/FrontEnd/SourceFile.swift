@@ -119,12 +119,4 @@ extension SourceFile {
     precondition(range.file.url == url, "invalid range")
     return text[range.startIndex..<range.endIndex]
   }
-
-}
-
-/// For assigning to string literal.
-extension SourceFile: ExpressibleByStringLiteral {
-  public init(stringLiteral text: String) {
-    self.init(synthesizedText: text)
-  }
 }
